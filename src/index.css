@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cobalt: #2447c8;
+  --color-cobalt-deep: #1b369c;
+  --color-ink: #10131f;
+  --color-paper: #f4f3ee;
+
+  --font-display: "Bricolage Grotesque Variable", "Geist Variable", system-ui, sans-serif;
+  --font-sans: "Geist Variable", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+/* Focus: visible on every ground */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ---------- Motion ----------
+   Frequency tier: occasional (page load, once-per-section reveals).
+   Properties: transform + opacity only. Curve: strong ease-out. */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s var(--ease-out-strong) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* Reveal-on-scroll: content stays visible if JS never adds .rv */
+.rv .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s var(--ease-out-strong),
+    transform 0.6s var(--ease-out-strong);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.rv .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.tl-line {
+  transform-origin: left center;
+  animation: draw 0.8s var(--ease-in-out-strong) both;
+  animation-delay: calc(0.5s + var(--i, 0) * 0.3s);
+}
+
+@keyframes ring {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.tl-ring {
+  animation: ring 2.4s var(--ease-out-strong) infinite;
+}
+
+/* Calibration chart: marker + tail travel together */
+.chart-marker {
+  transition: transform 0.5s var(--ease-in-out-strong);
+  will-change: transform;
+}
+.chart-tail {
+  transition: clip-path 0.5s var(--ease-in-out-strong);
+}
+
+/* Press feedback on every button-like control */
+.press {
+  transition:
+    transform 0.16s var(--ease-out-strong),
+    background-color 0.16s ease,
+    color 0.16s ease,
+    border-color 0.16s ease;
+}
+.press:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .press:hover {
+    transform: translateY(-1px);
+  }
+  .press:active {
+    transform: scale(0.97);
+  }
+  .lift {
+    transition:
+      transform 0.25s var(--ease-out-strong),
+      box-shadow 0.25s var(--ease-out-strong);
+  }
+  .lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 40px -24px rgba(16, 19, 31, 0.55);
+  }
+  .link-row {
+    transition: padding-left 0.25s var(--ease-out-strong);
+  }
+  .link-row:hover {
+    padding-left: 12px;
+  }
+  .link-row:hover .link-arrow {
+    transform: translate(2px, -2px);
+  }
+}
+.link-arrow {
+  transition: transform 0.25s var(--ease-out-strong);
+}
+
+/* Reduced motion: keep fades, drop movement */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise {
+    animation: fade 0.25s ease both;
+    animation-delay: 0s;
+  }
+  .rv .reveal {
+    transform: none;
+    transition: opacity 0.25s ease;
+    transition-delay: 0s;
+  }
+  .tl-line {
+    animation: none;
+  }
+  .tl-ring {
+    animation: none;
+    opacity: 0;
+  }
+  .chart-marker,
+  .chart-tail {
+    transition: none;
+  }
+  .press:hover,
+  .press:active,
+  .lift:hover,
+  .link-row:hover {
+    transform: none;
+    padding-left: 0;
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
