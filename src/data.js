@@ -115,11 +115,19 @@ export const projects = [
     id: 'KR-AI-03',
     title: 'AI Market Intelligence agent',
     tone: 'deep',
-    problem: 'Review and market signals arrive unstructured, so nobody can query them.',
+    problem:
+      'Ask an LLM for a database query and it will confidently give you one that runs but computes the wrong thing, such as RTO % over all orders instead of only the finished ones.',
     built:
-      'An n8n and Claude workflow that collects, summarises and routes signals into MongoDB and Slack, with Text-to-MQL so business questions become database queries.',
-    stack: ['n8n', 'Claude', 'MongoDB', 'Slack'],
-    links: [],
+      'A chat analytics agent: business questions in plain English become MongoDB queries. A YAML semantic layer defines every table, metric and allowed join; a read-only validator guards the query; failures retry with the error fed back. Three n8n workflows load data, refresh hints and answer questions, with follow-up memory and a Slack slash command.',
+    result: {
+      value: 94,
+      decimals: 0,
+      suffix: '%',
+      label: 'answers matching the gold query',
+      note: 'With the semantic layer, versus 77% with bare field names. Same model, my own benchmark, single runs. Reworded business-jargon questions: 96% versus 73%. About 96% holds at roughly 1M orders.',
+    },
+    stack: ['n8n', 'Gemini', 'MongoDB Atlas', 'Slack', 'YAML semantic layer'],
+    links: [{ label: 'Live', href: 'https://ai-market-intel-tau.vercel.app' }],
   },
   {
     id: 'KR-FV-04',
