@@ -4,6 +4,8 @@
 export const person = {
   name: 'Kuruva Radhakrishna',
   email: 'kuruvaradhakrishna77@gmail.com',
+  phone: '+91 78158 51788',
+  phoneHref: 'tel:+917815851788',
   github: 'https://github.com/kuruva-radhakrishna',
   leetcode: 'https://leetcode.com/u/kradha123/',
   linkedin: 'https://www.linkedin.com/in/kuruva-radhakrishna-457167260/',

@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowUpRight, Code, GithubLogo, LinkedinLogo } from '@phosphor-icons/react'
+import { ArrowDown, ArrowUpRight, Code, GithubLogo, LinkedinLogo, Phone } from '@phosphor-icons/react'
 import { person } from '../data.js'
 import Magnetic from './Magnetic.jsx'
 
@@ -25,6 +25,17 @@ export default function Contact() {
               {person.email}
             </span>
             <ArrowUpRight size={36} weight="bold" aria-hidden="true" className="link-arrow shrink-0" />
+          </a>
+
+          <a
+            href={person.phoneHref}
+            className="sweep reveal inline-flex w-fit items-center gap-3 pb-1.5"
+            style={{ '--i': 1 }}
+          >
+            <Phone size={30} weight="bold" aria-hidden="true" className="shrink-0" />
+            <span className="display text-[clamp(1.4rem,3.4vw,2.4rem)]" style={{ fontWeight: 700, letterSpacing: '-0.02em' }}>
+              {person.phone}
+            </span>
           </a>
 
           <div className="flex flex-wrap items-center gap-x-10 gap-y-6">
