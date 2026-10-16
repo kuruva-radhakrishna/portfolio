@@ -3,9 +3,6 @@
 
 export const person = {
   name: 'Kuruva Radhakrishna',
-  role: 'Business Analyst',
-  focus: 'Delivery promise & logistics analytics',
-  tagline: 'Delivery promises that hold on sale days, and the analytics to prove it.',
   email: 'kuruvaradhakrishna77@gmail.com',
   github: 'https://github.com/kuruva-radhakrishna',
   leetcode: 'https://leetcode.com/u/kradha123/',
@@ -20,28 +17,36 @@ export const nav = [
   { href: '#contact', label: 'Contact' },
 ]
 
-export const timeline = [
-  { when: '2022', title: 'Ordered', sub: 'NIT Delhi, B.Tech ECE' },
-  { when: 'May 2025', title: 'In transit', sub: 'AlgoUniversity, SWE Co-Op' },
-  { when: 'Jan 2026', title: 'Out for delivery', sub: 'Meesho, BA Intern' },
-  { when: 'Jul 2026', title: 'Delivered', sub: 'Meesho, BA-1 (now)' },
+export const tools = [
+  'Databricks', 'Spark SQL', 'Trino', 'Superset', 'Delta Lake', 'n8n', 'Claude', 'Python',
+  'FastAPI', 'Redis', 'PostgreSQL', 'MongoDB', 'Docker', 'AWS',
 ]
 
-export const experience = [
+// Oldest first: the page reads as a parcel's journey.
+export const journey = [
   {
-    when: 'Jul 2026 – Present',
-    org: 'Meesho',
-    role: 'Business Analyst 1 (BA-1), Promise Accuracy',
-    cert: 'https://drive.google.com/file/d/1httSBZQL_-FYFZQdh38H5iowQZCK0iiY/view?usp=drivesdk',
-    points: [
-      'Diagnosed delivery-promise breaches across lane, weather, backlog and operational cuts, and found rigid single-quantile calibration to be a key driver during sale and disruption periods.',
-      'Designed a per-lane calibration layer from historical performance and contextual signals: delivery breach under 5% without materially inflating promised dates. The experiment covers 40% of the platform.',
-      'Built an agentic RCA workflow on Databricks Genie and Claude that investigates delivery metrics across levels of the metric hierarchy. Reusable Genie skills cut ad-hoc SQL requests by 45%.',
-      'Automated recurring metric analysis with n8n and Claude workflows, freeing analysts for investigation and action planning.',
-    ],
-    tags: ['PDD modeling', 'CPD breach analysis', 'Carrier allocation', 'Spark SQL', 'Databricks', 'Trino', 'Superset', 'Delta Lake'],
+    status: 'Ordered',
+    when: '2022',
+    org: 'NIT Delhi',
+    role: 'B.Tech, Electronics and Communication Engineering, Minor in AI/ML',
+    points: ['8.89 CGPA. Head of the Database Team at the Training & Placement Cell.'],
+    tags: [],
   },
   {
+    status: 'In transit',
+    when: 'May – Jul 2025',
+    org: 'AlgoUniversity',
+    role: 'SWE Co-Op Intern, Code Arena (backed by Y Combinator)',
+    cert: 'https://drive.google.com/file/d/1gNyMkmSw7HLqSLOBlJqn4JX4-G1r8g_n/view?usp=drivesdk',
+    points: [
+      'Built a real-time online judge on the MERN stack with a Docker-isolated execution layer for C, C++, Java and Python, with resource controls and sandboxing.',
+      'Integrated Gemini for code review, debugging and conversational help during problem solving.',
+      'Deployed on AWS EC2 and load-tested with k6 at 100 concurrent users and 46 requests/sec: zero failures and sub-250ms latency under the tested workload.',
+    ],
+    tags: ['MERN', 'Docker', 'AWS EC2', 'k6', 'Gemini'],
+  },
+  {
+    status: 'Out for delivery',
     when: 'Jan – Jun 2026',
     org: 'Meesho',
     role: 'Business Analyst Intern, SX: Claims',
@@ -54,16 +59,18 @@ export const experience = [
     tags: ['Gold-layer models', 'Kaizen workflows', 'Metric views', 'Seller payouts'],
   },
   {
-    when: 'May – Jul 2025',
-    org: 'AlgoUniversity',
-    role: 'SWE Co-Op Intern, Code Arena (backed by Y Combinator)',
-    cert: 'https://drive.google.com/file/d/1gNyMkmSw7HLqSLOBlJqn4JX4-G1r8g_n/view?usp=drivesdk',
+    status: 'Delivered',
+    when: 'Jul 2026 – now',
+    org: 'Meesho',
+    role: 'Business Analyst 1 (BA-1), Promise Accuracy',
+    cert: 'https://drive.google.com/file/d/1httSBZQL_-FYFZQdh38H5iowQZCK0iiY/view?usp=drivesdk',
     points: [
-      'Built a real-time online judge on the MERN stack with a Docker-isolated execution layer for C, C++, Java and Python, with resource controls and sandboxing.',
-      'Integrated Gemini for code review, debugging and conversational help during problem solving.',
-      'Deployed on AWS EC2 and load-tested with k6 at 100 concurrent users and 46 requests/sec: zero failures and sub-250ms latency under the tested workload.',
+      'Diagnosed delivery-promise breaches across lane, weather, backlog and operational cuts, and found rigid single-quantile calibration to be a key driver during sale and disruption periods.',
+      'Designed a per-lane calibration layer from historical performance and contextual signals: delivery breach under 5% without materially inflating promised dates. The experiment covers 40% of the platform.',
+      'Built an agentic RCA workflow on Databricks Genie and Claude that investigates delivery metrics across levels of the metric hierarchy. Reusable Genie skills cut ad-hoc SQL requests by 45%.',
+      'Automated recurring metric analysis with n8n and Claude workflows, freeing analysts for investigation and action planning.',
     ],
-    tags: ['MERN', 'Docker', 'AWS EC2', 'k6', 'Gemini'],
+    tags: ['PDD modeling', 'CPD breach analysis', 'Carrier allocation', 'Spark SQL', 'Databricks', 'Trino', 'Superset', 'Delta Lake'],
   },
 ]
 
@@ -71,11 +78,17 @@ export const projects = [
   {
     id: 'KR-DP-01',
     title: 'DevPilot',
-    lead: true,
+    tone: 'paper',
     problem: 'Repository-level bug fixes fail when retrieval is shallow and patches rely on brittle line ranges.',
     built:
       'An AI software-engineering agent: code-aware RAG over GitHub repos (tree-sitter AST chunking, semantic plus keyword search fused with RRF), a tool-calling repair loop, 7 MCP tools, and tests run in a network-restricted Docker sandbox.',
-    result: { big: '83% → 97%', note: 'End-to-end repair success on a 36-case deterministic benchmark; average iterations 1.42 → 1.03.' },
+    result: {
+      value: 97,
+      decimals: 0,
+      suffix: '%',
+      label: 'repair success',
+      note: 'Up from 83% on a 36-case deterministic benchmark. Average iterations fell from 1.42 to 1.03.',
+    },
     stack: ['Python', 'FastAPI', 'pgvector', 'Gemini / Ollama', 'MCP'],
     links: [
       { label: 'Source', href: 'https://github.com/kuruva-radhakrishna/devpilot' },
@@ -85,10 +98,17 @@ export const projects = [
   {
     id: 'KR-CF-02',
     title: 'CodeFlow',
+    tone: 'ink',
     problem: 'Code execution has to survive duplicate submissions, worker crashes and stale workers.',
     built:
       'An async platform around Judge0: Redis-backed queue, multi-worker consumers, Postgres as the source of truth, DB-enforced idempotency, leases, heartbeats and reaper-based recovery.',
-    result: { big: '9.35 jobs/sec', note: 'At 20 worker lanes; queue-wait p50 improved from 7.3s to 1.3s with zero failures (100 submissions at 10 req/s, mock workload).' },
+    result: {
+      value: 9.35,
+      decimals: 2,
+      suffix: '',
+      label: 'jobs per second',
+      note: 'At 20 worker lanes. Queue-wait p50 improved from 7.3s to 1.3s with zero failures (100 submissions at 10 req/s, mock workload).',
+    },
     stack: ['Node.js', 'PostgreSQL', 'Redis', 'Judge0'],
     links: [
       { label: 'Source', href: 'https://github.com/kuruva-radhakrishna/CodeFlow' },
@@ -98,6 +118,7 @@ export const projects = [
   {
     id: 'KR-AI-03',
     title: 'AI Market Intelligence agent',
+    tone: 'deep',
     problem: 'Review and market signals arrive unstructured, so nobody can query them.',
     built:
       'An n8n and Claude workflow that collects, summarises and routes signals into MongoDB and Slack, with Text-to-MQL so business questions become database queries.',
@@ -107,6 +128,7 @@ export const projects = [
   {
     id: 'KR-FV-04',
     title: 'Football Video Analysis',
+    tone: 'paper',
     problem: 'Match footage holds tactical structure that is hard to read by eye.',
     built:
       'A computer-vision pipeline: player detection, team classification, field keypoints and ball tracking, rendered as player maps, radar views, Voronoi regions and ball trajectories.',
@@ -116,6 +138,7 @@ export const projects = [
   {
     id: 'KR-LO-05',
     title: 'LookOut',
+    tone: 'ink',
     problem: 'Rental booking breaks when two guests reserve the same dates.',
     built: 'A MERN rental marketplace with concurrency-safe booking, Razorpay payments, and Mapbox location search.',
     stack: ['MERN', 'Razorpay', 'Mapbox'],
@@ -136,7 +159,7 @@ export const achievements = [
   },
   {
     title: 'Head, Database Team',
-    detail: 'Training & Placement (TnP) Cell, NIT Delhi',
+    detail: 'Training & Placement Cell, NIT Delhi',
   },
 ]
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
+import Marquee from './components/Marquee.jsx'
 import Experience from './components/Experience.jsx'
 import Work from './components/Work.jsx'
 import Achievements from './components/Achievements.jsx'
@@ -48,6 +49,7 @@ export default function App() {
       <Nav scrolled={scrolled} />
       <main id="main">
         <Hero />
+        <Marquee />
         <Experience />
         <Work />
         <Achievements />

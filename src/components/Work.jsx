@@ -1,93 +1,129 @@
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { ArrowUpRight } from '@phosphor-icons/react'
 import { projects } from '../data.js'
+import CountUp from './CountUp.jsx'
 
-function Card({ p, className = '' }) {
+const TONES = {
+  paper: { card: 'bg-paper text-ink', sub: 'text-ink/80', chip: 'border-ink/35', rule: 'border-ink/25', link: 'border-ink/40 hover:bg-ink hover:text-paper' },
+  ink: { card: 'bg-ink text-paper', sub: 'text-paper/80', chip: 'border-paper/35', rule: 'border-paper/25', link: 'border-paper/40 hover:bg-paper hover:text-ink' },
+  deep: { card: 'bg-cobalt-deep text-paper', sub: 'text-paper/85', chip: 'border-paper/40', rule: 'border-paper/30', link: 'border-paper/45 hover:bg-paper hover:text-ink' },
+}
+
+// Ticket notches where the dashed tear line meets each edge.
+const NOTCH_Y = 72
+const notchMask = {
+  WebkitMaskImage: `radial-gradient(circle 13px at 0 ${NOTCH_Y}px, #0000 12.5px, #000 13px), radial-gradient(circle 13px at 100% ${NOTCH_Y}px, #0000 12.5px, #000 13px)`,
+  maskImage: `radial-gradient(circle 13px at 0 ${NOTCH_Y}px, #0000 12.5px, #000 13px), radial-gradient(circle 13px at 100% ${NOTCH_Y}px, #0000 12.5px, #000 13px)`,
+  WebkitMaskComposite: 'source-in',
+  maskComposite: 'intersect',
+}
+
+function StackCard({ p, i, n, progress }) {
+  const reduce = useReducedMotion()
+  const t = TONES[p.tone]
+  const scale = useTransform(progress, [i / n, (i + 1) / n], [1, reduce || i === n - 1 ? 1 : 0.95])
+
   return (
-    <article
-      className={`reveal lift flex flex-col gap-4 rounded-md bg-paper p-6 text-ink sm:p-8 ${className}`}
-      aria-labelledby={`${p.id}-title`}
-    >
-      <div className="flex items-center justify-between gap-4">
-        <p className="eyebrow text-ink/70">{p.id}</p>
-        {p.links.length > 0 ? (
-          <ul className="flex gap-4">
-            {p.links.map((l) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="eyebrow inline-flex items-center gap-1 text-cobalt underline-offset-4 hover:underline"
-                >
-                  {l.label} <ArrowUpRight size={13} weight="bold" aria-hidden="true" />
-                  <span className="sr-only">for {p.title} (opens in a new tab)</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="eyebrow text-ink/70">n8n workflow</p>
-        )}
-      </div>
-
-      <h3
-        id={`${p.id}-title`}
-        className={`font-display font-bold tracking-[-0.025em] ${p.lead ? 'text-4xl leading-[1.05] md:text-[44px]' : 'text-3xl leading-tight md:text-[34px]'}`}
+    <div className="mb-8 lg:sticky lg:mb-[16vh] last:mb-0" style={{ top: `calc(92px + ${i * 22}px)` }}>
+      <motion.article
+        aria-labelledby={`${p.id}-title`}
+        style={{ scale, transformOrigin: '50% 0%', ...notchMask }}
+        className={`relative rounded-2xl ${t.card} shadow-[0_30px_50px_-30px_rgba(16,19,31,0.7)]`}
       >
-        {p.title}
-      </h3>
-
-      <hr className="border-t border-dashed border-ink/35" />
-
-      <dl className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1.5">
-          <dt className="eyebrow text-[11px] text-cobalt">Problem</dt>
-          <dd className="text-[15px] leading-6 text-ink/90">{p.problem}</dd>
+        <div className="absolute inset-x-0 top-0 flex h-[72px] items-center justify-between gap-4 px-7 md:px-10">
+          <p className="font-mono text-xs font-medium tracking-[0.12em] opacity-75">{p.id}</p>
+          {p.links.length > 0 ? (
+            <ul className="flex gap-2">
+              {p.links.map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`press inline-flex items-center gap-1 rounded-full border px-3.5 py-1.5 text-[13px] font-semibold ${t.link}`}
+                  >
+                    {l.label} <ArrowUpRight size={14} weight="bold" aria-hidden="true" />
+                    <span className="sr-only">for {p.title} (opens in a new tab)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-[13px] font-semibold opacity-75">n8n workflow</p>
+          )}
         </div>
-        <div className="flex flex-col gap-1.5">
-          <dt className="eyebrow text-[11px] text-cobalt">What I built</dt>
-          <dd className="text-[15px] leading-6 text-ink/90">{p.built}</dd>
-        </div>
-      </dl>
+        <hr aria-hidden="true" className={`absolute inset-x-6 top-[72px] border-0 border-t border-dashed ${t.rule}`} />
 
-      {p.result && (
-        <div className="flex flex-col gap-1 border-l-[3px] border-cobalt py-0.5 pl-4">
-          <p className="font-display text-3xl font-extrabold leading-tight tracking-[-0.02em] text-cobalt md:text-[38px]">{p.result.big}</p>
-          <p className="text-sm leading-5 text-ink/80">{p.result.note}</p>
-        </div>
-      )}
+        <div className="grid gap-10 px-7 pb-10 pt-[112px] md:px-10 lg:grid-cols-[1.25fr_0.75fr] lg:gap-14 lg:pb-12">
+          <div className="flex flex-col gap-7">
+            <h3 id={`${p.id}-title`} className="display text-[clamp(2.4rem,5.4vw,4.4rem)]" style={{ fontWeight: 800 }}>
+              {p.title}
+            </h3>
+            <dl className="flex max-w-[62ch] flex-col gap-5">
+              <div className="flex flex-col gap-1">
+                <dt className="text-sm font-semibold">The problem</dt>
+                <dd className={`leading-7 ${t.sub}`}>{p.problem}</dd>
+              </div>
+              <div className="flex flex-col gap-1">
+                <dt className="text-sm font-semibold">What I built</dt>
+                <dd className={`leading-7 ${t.sub}`}>{p.built}</dd>
+              </div>
+            </dl>
+          </div>
 
-      <ul aria-label="Stack" className="flex flex-wrap gap-2">
-        {p.stack.map((s) => (
-          <li key={s} className="rounded-full border border-ink/40 px-2.5 py-1 font-mono text-[11px] font-medium">
-            {s}
-          </li>
-        ))}
-      </ul>
-    </article>
+          <div className="flex flex-col justify-end gap-6">
+            {p.result ? (
+              <div className="flex flex-col gap-2">
+                <p className={`display leading-none ${p.tone === 'paper' ? 'text-cobalt' : ''}`} style={{ fontSize: 'clamp(4rem,9vw,6rem)' }}>
+                  <CountUp to={p.result.value} decimals={p.result.decimals} suffix={p.result.suffix} />
+                </p>
+                <p className="text-lg font-semibold">{p.result.label}</p>
+                <p className={`text-sm leading-6 ${t.sub}`}>{p.result.note}</p>
+              </div>
+            ) : (
+              <ul aria-label="Stack" className={`flex flex-col divide-y ${p.tone === 'paper' ? 'divide-ink/20' : 'divide-paper/20'}`}>
+                {p.stack.map((s) => (
+                  <li key={s} className="display py-2.5 text-[clamp(1.6rem,3vw,2.2rem)]" style={{ fontWeight: 700 }}>
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {p.result && (
+              <ul aria-label="Stack" className="flex flex-wrap gap-2">
+                {p.stack.map((s) => (
+                  <li key={s} className={`rounded-full border px-3 py-1 text-[13px] font-medium ${t.chip}`}>
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </motion.article>
+    </div>
   )
 }
 
 export default function Work() {
-  const [devpilot, codeflow, ai, football, lookout] = projects
-  return (
-    <section id="work" aria-labelledby="work-title" className="bg-cobalt px-5 py-24 text-paper md:px-10 md:py-32 lg:px-20">
-      <div className="mx-auto max-w-[1280px]">
-        <header className="reveal mb-12 flex flex-col gap-3 md:mb-16">
-          <p className="eyebrow text-paper/80">03 / Out for delivery</p>
-          <h2 id="work-title" className="font-display text-[clamp(2.6rem,6vw,4rem)] font-extrabold leading-none tracking-[-0.03em]">
-            Selected work, as case files
-          </h2>
-        </header>
+  const stackRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: stackRef, offset: ['start start', 'end end'] })
 
-        <div className="grid gap-8 lg:grid-cols-12">
-          <Card p={devpilot} className="lg:col-span-7" />
-          <Card p={codeflow} className="lg:col-span-5 lg:mt-24" />
-          <Card p={ai} className="lg:col-span-7 lg:self-start" />
-          <div className="flex flex-col gap-8 lg:col-span-5">
-            <Card p={football} />
-            <Card p={lookout} />
-          </div>
+  return (
+    <section id="work" aria-labelledby="work-title" className="on-ink bg-cobalt px-5 py-24 text-paper md:px-10 md:py-36 lg:px-20">
+      <div className="mx-auto max-w-[1360px]">
+        <h2 id="work-title" className="display reveal text-[clamp(3rem,8vw,6rem)]">
+          Selected work
+        </h2>
+        <p className="reveal mt-5 max-w-[48ch] text-lg leading-7 text-paper/90" style={{ '--i': 1 }}>
+          Five projects as case files: the problem, what I built, and the result where there is one I can measure.
+        </p>
+
+        <div ref={stackRef} className="mt-14 md:mt-20">
+          {projects.map((p, i) => (
+            <StackCard key={p.id} p={p} i={i} n={projects.length} progress={scrollYProgress} />
+          ))}
         </div>
       </div>
     </section>

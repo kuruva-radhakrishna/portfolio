@@ -1,25 +1,29 @@
 import { useState } from 'react'
+import { motion, useScroll, useSpring, useReducedMotion } from 'motion/react'
 import { ArrowDown, List, X } from '@phosphor-icons/react'
 import { nav, person } from '../data.js'
 
 export default function Nav({ scrolled }) {
   const [open, setOpen] = useState(false)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll()
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 28, mass: 0.3 })
   const solid = scrolled || open
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 text-paper transition-colors duration-200 ${
+      className={`on-ink fixed inset-x-0 top-0 z-40 text-paper transition-colors duration-200 ${
         solid ? 'bg-ink/90 backdrop-blur-md' : 'bg-transparent'
       }`}
     >
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-4 md:px-10 lg:px-20">
-        <a href="#top" className="eyebrow" aria-label="Kuruva Radhakrishna, back to top">
-          KR <span aria-hidden="true">/</span> Tracking no. KR-IN-2026
+      <div className="mx-auto flex max-w-[1360px] items-center justify-between px-5 py-4 md:px-10 lg:px-20">
+        <a href="#top" className="display text-[1.6rem]" aria-label="Kuruva Radhakrishna, back to top">
+          KR
         </a>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 md:flex">
           {nav.map((item) => (
-            <a key={item.href} href={item.href} className="text-[15px] font-medium hover:underline hover:underline-offset-4">
+            <a key={item.href} href={item.href} className="sweep pb-1 text-[15px] font-medium">
               {item.label}
             </a>
           ))}
@@ -43,6 +47,13 @@ export default function Nav({ scrolled }) {
           {open ? <X size={26} weight="bold" aria-hidden="true" /> : <List size={26} weight="bold" aria-hidden="true" />}
         </button>
       </div>
+
+      {/* Scroll progress, visible on every ground */}
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-[3px] origin-left bg-white mix-blend-difference"
+        style={{ scaleX: reduce ? 0 : progress }}
+      />
 
       {open && (
         <nav id="mobile-menu" aria-label="Primary" className="border-t border-paper/15 px-5 pb-6 pt-2 md:hidden">
