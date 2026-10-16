@@ -63,7 +63,15 @@ export default function Contact() {
         </div>
 
         <footer className="mt-24 flex flex-wrap items-center justify-between gap-3 border-t border-paper/20 pt-6 text-sm text-paper/75">
-          <p>Kuruva Radhakrishna, 2026</p>
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span>Kuruva Radhakrishna, 2026</span>
+            <span aria-hidden="true" className="text-paper/40">
+              /
+            </span>
+            <a href={person.phoneHref} className="sweep pb-0.5 font-medium text-paper">
+              {person.phone}
+            </a>
+          </p>
           <p>Built with React, Tailwind and Motion</p>
         </footer>
       </div>
