@@ -63,9 +63,8 @@ h3 {
 }
 
 /* ---------- Motion ----------
-   One authored moment: the parcel field in the hero. Everything else is
-   supporting: masked headline rise on load, scroll-linked route, counting
-   results, a stamp. Transform and opacity (plus clip/mask) only. */
+   Masked headline rise on load, reveals once per block, stacked case files,
+   counting results. Transform and opacity (plus clip/mask) only. */
 
 @keyframes rise-line {
   from {

@@ -22,18 +22,16 @@ export const tools = [
   'FastAPI', 'Redis', 'PostgreSQL', 'MongoDB', 'Docker', 'AWS',
 ]
 
-// Oldest first: the page reads as a parcel's journey.
-export const journey = [
+// Oldest first.
+export const experience = [
   {
-    status: 'Ordered',
-    when: '2022',
+    when: '2022 – 2026',
     org: 'NIT Delhi',
     role: 'B.Tech, Electronics and Communication Engineering, Minor in AI/ML',
     points: ['8.89 CGPA. Head of the Database Team at the Training & Placement Cell.'],
     tags: [],
   },
   {
-    status: 'In transit',
     when: 'May – Jul 2025',
     org: 'AlgoUniversity',
     role: 'SWE Co-Op Intern, Code Arena (backed by Y Combinator)',
@@ -46,7 +44,6 @@ export const journey = [
     tags: ['MERN', 'Docker', 'AWS EC2', 'k6', 'Gemini'],
   },
   {
-    status: 'Out for delivery',
     when: 'Jan – Jun 2026',
     org: 'Meesho',
     role: 'Business Analyst Intern, SX: Claims',
@@ -59,7 +56,6 @@ export const journey = [
     tags: ['Gold-layer models', 'Kaizen workflows', 'Metric views', 'Seller payouts'],
   },
   {
-    status: 'Delivered',
     when: 'Jul 2026 – now',
     org: 'Meesho',
     role: 'Business Analyst 1 (BA-1), Promise Accuracy',
